@@ -8,34 +8,65 @@ import { ToastContainer, toast } from "react-toastify";
 import ShareDrawer from "../shareDrawer/ShareDrawer";
 import ContentPanelService from "./ContentPanelService";
 
-const ContentPanel = () => {
+interface DbStorage {
+  [key: string]: Array<{
+    file: File;
+    shared: Array<{
+      employeeId: number;
+      employeeName: string;
+      employeeDepartment: string;
+      sharedDate: Date;
+    }>;
+  }>;
+}
+
+interface Employee {
+  id: number;
+  name: string;
+  department: string;
+}
+
+interface Employees {
+  [key: string]: Employee[];
+}
+
+interface FileDetails {
+  file: File;
+  shared: number[];
+}
+
+const ContentPanel: React.FC = () => {
   const location = useLocation();
-  const params = useParams();
-  const isSelected = (path) => location.pathname.includes(path);
+  const params = useParams<Record<string, string>>();
+  const isSelected = (path: string) => location.pathname.includes(path);
 
   // const { item1, level1, tab1, year, itemOne } = useParams();
   const pathname = location.pathname;
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [dbStorage, setDbStorage] = useState({});
-  const [selectedFileDetails, setSelectedFileDetails] = useState(null);
-  const [department, setDepartment] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [dbStorage, setDbStorage] = useState<DbStorage>({});
+  const [selectedFileDetails, setSelectedFileDetails] =
+    useState<FileDetails | null>(null);
+  const [department, setDepartment] = useState<string>("");
   const [add, setAdd] = useState(false);
-  const [checkedEmployees, setCheckedEmployees] = useState([]);
+  const [checkedEmployees, setCheckedEmployees] = useState<number[]>([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [paths, setPaths] = useState("");
   const [buttons, setButtons] = useState("");
-  const [employees, setEmployees] = useState("");
+  const [employees, setEmployees] = useState<Employees>({});
+  const [tempDbStorage, setTempDbStorage] = useState<DbStorage>(dbStorage);
 
+  // console.log("checkedEmployees", checkedEmployees);
   const handleDrawerClose = () => setDrawerOpen(false);
 
-  const handleDepartmentChange = (event) => {
+  const handleDepartmentChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setDepartment(event.target.value);
     setAdd(true);
   };
 
-  // uploading the file UPLOAD BUTTON
-  const handleFileChange = (e) => {
-    const uploadedFiles = Array.from(e.target.files);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadedFiles = Array.from(e.target.files || []);
 
     let updatedValue = uploadedFiles.map((file) => ({
       file: file,
@@ -54,8 +85,9 @@ const ContentPanel = () => {
       });
     }
   };
+
   // Download the file
-  const handleDownload = (file) => {
+  const handleDownload = (file: File) => {
     const downloadUrl = URL.createObjectURL(file);
     const link = document.createElement("a");
     link.href = downloadUrl;
@@ -66,32 +98,31 @@ const ContentPanel = () => {
     toast.success("File Downloaded Successfully");
   };
 
-  //Delete the file
-  const handleDelete = (index, key) => {
+  // Delete the file
+  const handleDelete = (index: number, key: string) => {
     let tempArray = dbStorage[key];
     tempArray.splice(index, 1);
     setDbStorage({ ...dbStorage, [key]: tempArray });
     toast.success("File Deleted Successfully");
   };
+
   // Opening the side drawer
-  const handleShare = (fileDetails) => {
+  const handleShare = (fileDetails: FileDetails) => {
     setDrawerOpen(true);
     setSelectedFileDetails(fileDetails);
   };
 
-  const [tempDbStorage, setTempDbStorage] = useState(dbStorage);
-
-  //Handleing checkboxes other than select all
+  // Handeling checkboxes other than select all
   const handleCheckboxChange = (
-    employeeId,
-    employeeName,
-    employeeDepartment,
-    fileName,
-    isChecked
+    employeeId: number,
+    employeeName: string,
+    employeeDepartment: string,
+    fileName: string,
+    isChecked: boolean
   ) => {
     const sharedDate = new Date();
 
-    const updateSharedEmployees = (sharedEmployees) => {
+    const updateSharedEmployees = (sharedEmployees: any[]) => {
       if (!isChecked && sharedEmployees.length > 0) {
         return sharedEmployees.filter((e) => e.employeeId !== employeeId);
       }
@@ -125,8 +156,9 @@ const ContentPanel = () => {
       return { [pathname]: updatedTempDbStorage };
     });
   };
+
   // Select all checkboxes
-  const handleSelectAll = (event, fileName) => {
+  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>, fileName: string) => {
     const isChecked = event.target.checked;
     let selectedEmployeeIds = [...checkedEmployees];
     const currentEmployees =
@@ -280,7 +312,7 @@ const ContentPanel = () => {
         <FilesTable
           location={location}
           dbStorage={dbStorage}
-          setDbStorage={setDbStorage}
+          // setDbStorage={setDbStorage}
           handleDelete={handleDelete}
           handleDownload={handleDownload}
           handleShare={handleShare}

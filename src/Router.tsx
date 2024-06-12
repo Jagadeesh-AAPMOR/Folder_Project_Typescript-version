@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 
 import Dashboard from "./components/dashboard/Dashboard";
-import ContentPanel from "./components/content-panel/ContentPanel";
+import ContentPanel from "./components/content-panel/ContentPanel.tsx";
 import LoginLayout from "./components/layouts/LoginLayout";
 import { Login } from "./components/login/Login";
 
