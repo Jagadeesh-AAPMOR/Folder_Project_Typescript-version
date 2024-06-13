@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -7,7 +8,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
 import FilterDramaIcon from "@mui/icons-material/FilterDrama";
 import { Link, useLocation } from "react-router-dom";
 import CodeIcon from "@mui/icons-material/Code";
@@ -16,9 +16,19 @@ import PeopleIcon from "@mui/icons-material/People";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SidebarService from "./SidebarService";
 
-const Sidebar = () => {
-  const iconMapping = {
-    Development: <CodeIcon sx={{ color: "rgb(154, 173, 186)" }} />,
+interface PathData {
+  [key: string]: { [key: string]: string };
+}
+
+interface ButtonData {
+  [key: string]: { [key: string]: string };
+}
+
+const Sidebar: React.FC = () => {
+  const iconMapping: { [key: string]: JSX.Element } = {
+    Development: (
+      <CodeIcon sx={{ color: "rgb(154, 173, 186)" }} />
+    ),
     Testing: <BugReportIcon sx={{ color: "rgb(154, 173, 186)" }} />,
     HumanResource: <PeopleIcon sx={{ color: "rgb(154, 173, 186)" }} />,
     Sample: <PeopleIcon sx={{ color: "rgb(154, 173, 186)" }} />,
@@ -26,20 +36,21 @@ const Sidebar = () => {
     Sample2: <PeopleIcon sx={{ mr: 1 }} />,
   };
 
-  const [expandedIndex, setExpandedIndex] = useState(null);
-  const [paths, setPaths] = useState("");
-  const [buttons, setButtons] = useState("");
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [paths, setPaths] = useState<PathData>({});
+  const [buttons, setButtons] = useState<ButtonData>({});
   const location = useLocation();
 
-  const handleAccordionChange = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
+  const handleAccordionChange = (index: number) => {
+    setExpandedIndex((prevIndex) =>
+      prevIndex === index ? null : index
+    );
   };
 
   async function fetchPaths() {
     const response = await SidebarService.getPaths();
     if (response) {
       setPaths(response);
-      // console.log("paths", response);
     } else {
       console.log("ERROR FETCHING PATHS");
     }
@@ -49,7 +60,6 @@ const Sidebar = () => {
     const response = await SidebarService.getButtons();
     if (response) {
       setButtons(response);
-      // console.log("paths", response);
     } else {
       console.log("ERROR FETCHING BUTTONS");
     }
@@ -76,25 +86,24 @@ const Sidebar = () => {
           >
             <FilterDramaIcon
               sx={{ fontSize: 30, mr: 1, color: "rgb(254, 84, 41)" }}
-            />
-            FOLDER
-          </Link>
-        </Typography>
-
+            />{" "}
+            FOLDER{" "}
+          </Link>{" "}
+        </Typography>{" "}
         <Box
           overflow={"auto"}
           sx={{
             "::-webkit-scrollbar": {
-              width: "7px" /* Set the width of the scrollbar */,
+              width: "7px",
             },
             "::-webkit-scrollbar-thumb": {
               borderRadius: "20px",
-              backgroundColor:
-                "#a8adba" /* Set the color of the thumb (scroll handle) */,
+              backgroundColor: "#a8adba",
             },
           }}
         >
-          {/* Accordians menu items */}
+          {" "}
+          {/* Accordians menu items */}{" "}
           {paths &&
             Object.keys(paths).map((path, index) => (
               <Box key={index}>
@@ -105,13 +114,14 @@ const Sidebar = () => {
                 >
                   <AccordionSummary
                     expandIcon={
-                      <ExpandMoreIcon sx={{ color: "rgb(154, 173, 186)" }} />
+                      <ExpandMoreIcon
+                        sx={{ color: "rgb(154, 173, 186)" }}
+                      />
                     }
                     aria-controls={`panel${index + 1}-content`}
                     id={`panel${index + 1}-header`}
                     sx={{
                       bgcolor: "rgb(18, 22, 33)",
-
                       color:
                         expandedIndex !== index
                           ? "rgb(154, 173, 186)"
@@ -122,51 +132,43 @@ const Sidebar = () => {
                           expandedIndex === index
                             ? "rgb(18, 22, 33)"
                             : "rgb(45, 53, 63)",
-                        color: expandedIndex === index ? "white" : "white",
+                        color:
+                          expandedIndex === index ? "white" : "white",
                       },
                     }}
                   >
-                    {iconMapping[path]}
-                    <Typography sx={{ marginLeft: 1 }}>{path}</Typography>
-                  </AccordionSummary>
-
+                    {iconMapping[path]}{" "}
+                    <Typography sx={{ marginLeft: 1 }}>
+                      {path}{" "}
+                    </Typography>{" "}
+                  </AccordionSummary>{" "}
                   <Stack
                     direction={"row"}
                     justifyContent={"flex-start"}
-                    sx={{
-                      bgcolor: "rgb(18, 22, 33)",
-                      height: "100%",
-                    }}
+                    sx={{ bgcolor: "rgb(18, 22, 33)", height: "100%" }}
                   >
-                    <Box
-                      sx={{ borderLeft: "1px solid rgb(67, 74, 96)", ml: 1 }}
-                    ></Box>
-
+                    {" "}
+                    <Box sx={{ borderLeft: "1px solid rgb(67, 74, 96)", ml: 1 }}>
+                      {" "}
+                    </Box>{" "}
                     <AccordionDetails
-                      sx={{
-                        bgcolor: "rgb(18, 22, 33)",
-                        width: "100%",
-                      }}
+                      sx={{ bgcolor: "rgb(18, 22, 33)", width: "100%" }}
                     >
+                      {" "}
                       {Object.keys(paths[path]).map((e1, i) => (
                         <Link
                           key={i}
-                          style={{
-                            textDecoration: "none",
-                            color: "black",
-                          }}
+                          style={{ textDecoration: "none", color: "black" }}
                           to={
                             Object.values(paths[path][e1])[0].length > 0
-                              ? `/${path}/${e1}/2023-2024/${
-                                  Object.keys(paths[path][e1])[0]
-                                }/${
-                                  Object.entries(
-                                    Object.values(paths[path][e1])[0]
-                                  )[0]?.[1]
-                                }`
-                              : `/${path}/${e1}/2023-2024/${
-                                  Object.keys(paths[path][e1])[0]
-                                }/ .`
+                              ? `/${path}/${e1}/2023-2024/${Object.keys(
+                                  paths[path][e1]
+                                )[0]}/${Object.entries(
+                                  Object.values(paths[path][e1])[0]
+                                )[0]?.[1]}`
+                              : `/${path}/${e1}/2023-2024/${Object.keys(
+                                  paths[path][e1]
+                                )[0]}/ .`
                           }
                         >
                           <Box
@@ -185,31 +187,29 @@ const Sidebar = () => {
                             }}
                           >
                             <Button
-                              // onClick={() => window.reload()}
                               sx={{
                                 color: location.pathname.includes(e1)
                                   ? "white"
                                   : "rgb(154, 173, 186)",
                               }}
                             >
-                              {e1}
-                            </Button>
-                          </Box>
+                              {" "}
+                              {e1}{" "}
+                            </Button>{" "}
+                          </Box>{" "}
                         </Link>
-                      ))}
-                    </AccordionDetails>
-                  </Stack>
-                </Accordion>
+                      ))}{" "}
+                    </AccordionDetails>{" "}
+                  </Stack>{" "}
+                </Accordion>{" "}
               </Box>
-            ))}
-          {/* last two Buttons */}
+            ))}{" "}
+          {/* last two Buttons */}{" "}
           {buttons &&
             Object.keys(buttons).map((button, ukey) => (
               <Link
                 key={ukey}
-                to={`/${button}/files/2023-2024/${
-                  Object.keys(buttons[button])[0]
-                }/ .`}
+                to={`/${button}/files/2023-2024/${Object.keys(buttons[button])[0]}/ .`}
               >
                 <Box
                   sx={{
@@ -239,14 +239,15 @@ const Sidebar = () => {
                       px: 0,
                     }}
                   >
+                    {" "}
                     {iconMapping[button]} {button}{" "}
-                    {/* Adding the icon and the name */}
-                  </Button>
-                </Box>
+                    {/* Adding the icon and the name */}{" "}
+                  </Button>{" "}
+                </Box>{" "}
               </Link>
-            ))}
-        </Box>
-      </Box>
+            ))}{" "}
+        </Box>{" "}
+      </Box>{" "}
     </Stack>
   );
 };

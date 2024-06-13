@@ -9,19 +9,18 @@ import {
   Stack,
 } from "@mui/material";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../common/components/breadcrumbs/Breadcrumbs";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header: React.FC = () => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const path = useLocation();
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -30,8 +29,8 @@ const Header = () => {
 
   const handleLogout = () => {
     Cookies.remove("loginDetails");
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   return (
     <Container sx={{ height: "60px", padding: "10px", mb: 2 }}>
@@ -39,7 +38,6 @@ const Header = () => {
         <Box>{path.pathname !== "/" && <Breadcrumbs />}</Box>
         <Box
           display={"flex"}
-          // width={"250px"}
           justifyContent={"space-evenly"}
           alignItems={"center"}
           sx={{ height: 40, mr: 1 }}

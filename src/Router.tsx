@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DashboardLayout from "./components/layouts/DashboardLayout";
+import DashboardLayout from "./components/layouts/DashboardLayout.tsx";
 
 import Dashboard from "./components/dashboard/Dashboard.tsx";
 import ContentPanel from "./components/content-panel/ContentPanel.tsx";
