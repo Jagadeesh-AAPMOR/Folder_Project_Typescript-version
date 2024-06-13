@@ -19,9 +19,9 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { FileDetails } from "../common/models/model";
 
 interface TableDataProps {
-  handleDelete: (fileIndex: number, parentKey: string) => void;
+  handleDelete: (index: number, key: string) => void;
   value: any[];
-  index: number;
+
   parentKey: string;
   handleDownload: (file: File) => void;
   handleShare: (file: FileDetails) => void;

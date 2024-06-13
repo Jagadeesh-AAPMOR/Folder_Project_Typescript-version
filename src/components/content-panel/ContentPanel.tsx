@@ -313,7 +313,19 @@ const ContentPanel: React.FC = () => {
       >
         {/* Menu items */}
         {paths && (
-          <MenuItems params={params} location={location} paths={paths} />
+          <MenuItems
+            params={
+              params as {
+                folder: string;
+                subFolder: string;
+                range: string;
+                tab: string;
+                subTab?: string;
+              }
+            }
+            location={location}
+            paths={paths}
+          />
         )}
 
         {/* Upload Files Table */}
