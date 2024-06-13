@@ -1,12 +1,13 @@
-import { Box } from "@mui/material";
+import { Box, SelectChangeEvent } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import ToolBar from "../toolbar/ToolBar";
-import MenuItems from "../menuItems/MenuItems";
-import FilesTable from "../filesTable/FilesTable";
+import ToolBar from "../toolbar/ToolBar.tsx";
+import MenuItems from "../menuItems/MenuItems.tsx";
+import FilesTable from "../filesTable/FilesTable.tsx";
 import { ToastContainer, toast } from "react-toastify";
-import ShareDrawer from "../shareDrawer/ShareDrawer";
 import ContentPanelService from "./ContentPanelService";
+import ShareDrawer from "../shareDrawer/ShareDrawer.tsx";
+import { FileDetails } from "../common/models/model";
 
 interface DbStorage {
   [key: string]: Array<{
@@ -30,11 +31,6 @@ interface Employees {
   [key: string]: Employee[];
 }
 
-interface FileDetails {
-  file: File;
-  shared: number[];
-}
-
 const ContentPanel: React.FC = () => {
   const location = useLocation();
   const params = useParams<Record<string, string>>();
@@ -46,12 +42,12 @@ const ContentPanel: React.FC = () => {
   const [dbStorage, setDbStorage] = useState<DbStorage>({});
   const [selectedFileDetails, setSelectedFileDetails] =
     useState<FileDetails | null>(null);
-  const [department, setDepartment] = useState<string>("");
+  const [department, setDepartment] = useState("");
   const [add, setAdd] = useState(false);
   const [checkedEmployees, setCheckedEmployees] = useState<number[]>([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [paths, setPaths] = useState("");
-  const [buttons, setButtons] = useState("");
+  const [paths, setPaths] = useState<any>("");
+  const [buttons, setButtons] = useState<any>("");
   const [employees, setEmployees] = useState<Employees>({});
   const [tempDbStorage, setTempDbStorage] = useState<DbStorage>(dbStorage);
 
@@ -59,9 +55,10 @@ const ContentPanel: React.FC = () => {
   const handleDrawerClose = () => setDrawerOpen(false);
 
   const handleDepartmentChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: SelectChangeEvent<HTMLInputElement>
   ) => {
-    setDepartment(event.target.value);
+    const value = event.target.value as string;
+    setDepartment(value);
     setAdd(true);
   };
 
@@ -158,7 +155,10 @@ const ContentPanel: React.FC = () => {
   };
 
   // Select all checkboxes
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>, fileName: string) => {
+  const handleSelectAll = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fileName: string
+  ) => {
     const isChecked = event.target.checked;
     let selectedEmployeeIds = [...checkedEmployees];
     const currentEmployees =
@@ -287,7 +287,15 @@ const ContentPanel: React.FC = () => {
       {paths && buttons && (
         <ToolBar
           isSelected={isSelected}
-          params={params}
+          params={
+            params as {
+              folder: string;
+              subFolder: string;
+              range: string;
+              tab: string;
+              subTab?: string;
+            }
+          }
           handleFileChange={handleFileChange}
           paths={paths}
           buttons={buttons}
@@ -305,7 +313,19 @@ const ContentPanel: React.FC = () => {
       >
         {/* Menu items */}
         {paths && (
-          <MenuItems params={params} location={location} paths={paths} />
+          <MenuItems
+            params={
+              params as {
+                folder: string;
+                subFolder: string;
+                range: string;
+                tab: string;
+                subTab?: string;
+              }
+            }
+            location={location}
+            paths={paths}
+          />
         )}
 
         {/* Upload Files Table */}

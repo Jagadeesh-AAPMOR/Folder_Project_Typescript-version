@@ -1,10 +1,10 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../sidebar/Sidebar";
-import Header from "../header/Header.jsx";
+import Sidebar from "../sidebar/Sidebar.tsx";
+import Header from "../header/Header.tsx";
 
-const DashboardLayout = () => {
+const DashboardLayout: React.FC = () => {
   return (
     <Grid container>
       <Grid item xs={2.25} minHeight={"100vh"}>

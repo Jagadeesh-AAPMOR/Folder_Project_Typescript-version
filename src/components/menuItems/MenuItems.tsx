@@ -2,11 +2,21 @@ import { Box, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
-
-const MenuItems = ({ params, location, paths }) => {
+interface menuitemsprops {
+  params: {
+    folder: string;
+    subFolder: string;
+    range: string;
+    tab: string;
+    subTab?: string;
+  };
+  location: any;
+  paths: any;
+}
+const MenuItems: React.FC<menuitemsprops> = ({ params, location, paths }) => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   // Destructring

@@ -1,26 +1,24 @@
-import React from "react";
+import React, { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DashboardLayout from "./components/layouts/DashboardLayout";
+import DashboardLayout from "./components/layouts/DashboardLayout.tsx";
 
-import Dashboard from "./components/dashboard/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard.tsx";
 import ContentPanel from "./components/content-panel/ContentPanel.tsx";
-import LoginLayout from "./components/layouts/LoginLayout";
-import { Login } from "./components/login/Login";
+import LoginLayout from "./components/layouts/LoginLayout.tsx";
+// import { Login } from "./components/login/Login";
+import { Login } from "./components/login/Login.tsx";
 
-const Router = () => {
+const Router: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
         {/* Login Route */}
-        <Route  path="/login" element={<LoginLayout />}>
+        <Route path="/login" element={<LoginLayout />}>
           <Route index element={<Login />} />
-        
-          
         </Route>
         {/* Protected Routes */}
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Dashboard />}></Route>
-         
           <Route
             path="/:folder/:subFolder/:range/:tab/:subTab"
             element={<ContentPanel />}

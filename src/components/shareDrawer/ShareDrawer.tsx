@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Stack,
   Table,
   TableBody,
@@ -22,10 +23,46 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-
 import "react-toastify/dist/ReactToastify.css";
+import { FileDetails } from "../common/models/model";
 
-const ShareDrawer = ({
+interface Employee {
+  id: number;
+  name: string;
+  department: string;
+}
+
+interface Employees {
+  [key: string]: Employee[];
+}
+
+interface ShareDrawerProps {
+  drawerOpen: boolean;
+  handleDrawerClose: () => void;
+  setDrawerOpen: (open: boolean) => void;
+  selectedFileDetails: FileDetails | null;
+  department: any;
+  handleDepartmentChange: (event: SelectChangeEvent<HTMLInputElement>) => void;
+  selectAllChecked: boolean;
+  handleSelectAll: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fileName: string
+  ) => void;
+  add: boolean;
+  employees: Employees;
+  handleCheckboxChange: (
+    employeeId: number,
+    employeeName: string,
+    employeeDepartment: string,
+    fileName: string,
+    isChecked: boolean
+  ) => void;
+  handleCancel: () => void;
+  handleShareClick: () => void;
+  checkedEmployees: number[];
+}
+
+const ShareDrawer: React.FC<ShareDrawerProps> = ({
   drawerOpen,
   handleDrawerClose,
   setDrawerOpen,
@@ -99,7 +136,7 @@ const ShareDrawer = ({
                       disabled={department.length === 0}
                       checked={selectAllChecked}
                       onChange={(e) =>
-                        handleSelectAll(e, selectedFileDetails?.file.name)
+                        handleSelectAll(e, selectedFileDetails?.file.name ?? "")
                       }
                     />
                   }
@@ -121,7 +158,7 @@ const ShareDrawer = ({
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {employees[department].map((employee) => (
+                  {employees[department]?.map((employee) => (
                     <TableRow
                       key={employee.id}
                       sx={{
@@ -143,13 +180,14 @@ const ShareDrawer = ({
                                     employee.id,
                                     employee.name,
                                     department,
-                                    selectedFileDetails.file.name,
+                                    selectedFileDetails?.file.name ?? "",
                                     e.target.checked
                                   );
                                 }}
                                 checked={checkedEmployees.includes(employee.id)}
                               />
                             }
+                            label="" // Adding an empty label to satisfy the type requirement
                           />
                         </FormGroup>
                       </TableCell>
@@ -170,7 +208,6 @@ const ShareDrawer = ({
             </Stack>
           </Box>
         ) : (
-          // <Scrollbar>
           <>
             <Typography
               variant="h6"
@@ -197,8 +234,8 @@ const ShareDrawer = ({
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {selectedFileDetails?.shared.length > 0 ? (
-                    selectedFileDetails?.shared.map((share, index) => (
+                  {selectedFileDetails?.shared?.length ? (
+                    selectedFileDetails.shared.map((share, index) => (
                       <TableRow key={index}>
                         <TableCell>{share.employeeName}</TableCell>
                         <TableCell>{share.employeeDepartment}</TableCell>
@@ -218,7 +255,6 @@ const ShareDrawer = ({
               </Table>
             </TableContainer>
           </>
-          // </Scrollbar>
         )}
       </Box>
     </Drawer>

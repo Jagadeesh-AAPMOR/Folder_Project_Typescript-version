@@ -1,6 +1,6 @@
 import React from "react";
 
-const VerifyOtp = () => {
+const VerifyOtp: React.FC = () => {
   return <div>VerifyOtp</div>;
 };
 

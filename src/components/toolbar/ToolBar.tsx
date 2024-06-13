@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -8,7 +9,6 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
@@ -16,7 +16,22 @@ import CodeIcon from "@mui/icons-material/Code";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
-const ToolBar = ({
+interface ToolbarProps {
+  isSelected: (item: string) => boolean;
+  params: {
+    folder: string;
+    subFolder: string;
+    range: string;
+    tab: string;
+    subTab?: string;
+  };
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  paths: Record<string, any>;
+  buttons: Record<string, any>;
+  dbStorage: Record<string, any>;
+}
+
+const ToolBar: React.FC<ToolbarProps> = ({
   isSelected,
   params,
   handleFileChange,
@@ -26,19 +41,21 @@ const ToolBar = ({
 }) => {
   const [value, setValue] = useState(0);
   const location = useLocation();
-  //Icons for top toolbar
-  const iconItems = {
+
+  // Icons for top toolbar
+  const iconItems: { [key: string]: JSX.Element } = {
     PLANNING: <AssignmentIcon sx={{ fontSize: 18 }} />,
     DESIGNING: <DesignServicesIcon sx={{ fontSize: 18 }} />,
     DEVELOPING: <CodeIcon sx={{ fontSize: 18 }} />,
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  // Destructring
+  // Destructuring
   const { folder, subFolder, range, tab, subTab } = params;
+
   return (
     <Stack direction={"row"} justifyContent={"space-between"}>
       <Stack direction="row" mt={1}>
@@ -74,8 +91,8 @@ const ToolBar = ({
                       </Box>
                     }
                     sx={{
-                      position: "relative",
-                      overflow: "hidden",
+                      position: "relative" as const,
+                      overflow: "hidden" as const,
                       textDecoration: isSelected(toolbarItem)
                         ? "underline"
                         : "none",
@@ -87,7 +104,7 @@ const ToolBar = ({
                       transition: "color 0.1s linear",
                       "&::before": {
                         content: '""',
-                        position: "absolute",
+                        position: "absolute" as const,
                         width: "100%",
                         height: "2px",
                         bottom: 0,
@@ -99,13 +116,11 @@ const ToolBar = ({
                         transition:
                           "transform 0.1s linear, background-color 0.1s linear",
                       },
-                      "&:hover": !isSelected(toolbarItem) && {
-                        color: "rgb(254, 84, 41)",
-                      },
-                      // "&:hover::before": !isSelected(toolbarItem) && {
-                      //   transform: "translateX(0%)",
-                      //   backgroundColor: "rgb(254, 84, 41)",
-                      // },
+                      "&:hover": !isSelected(toolbarItem)
+                        ? {
+                            color: "rgb(254, 84, 41)",
+                          }
+                        : undefined,
                     }}
                   />
                 </Link>
@@ -136,8 +151,8 @@ const ToolBar = ({
                       </Box>
                     }
                     sx={{
-                      position: "relative",
-                      overflow: "hidden",
+                      position: "relative" as const,
+                      overflow: "hidden" as const,
                       textDecoration: isSelected(e) ? "underline" : "none",
                       textUnderlineOffset: "18px",
                       fontWeight: isSelected(e) ? "700" : "normal",
@@ -145,7 +160,7 @@ const ToolBar = ({
                       transition: "color 0.1s linear",
                       "&::before": {
                         content: '""',
-                        position: "absolute",
+                        position: "absolute" as const,
                         width: "100%",
                         height: "2px",
                         bottom: 0,
@@ -157,20 +172,18 @@ const ToolBar = ({
                         transition:
                           "transform 0.1s linear, background-color 0.1s linear",
                       },
-                      "&:hover": !isSelected(e) && {
-                        color: "rgb(254, 84, 41)",
-                      },
-                      // "&:hover::before": !isSelected(e) && {
-                      //   transform: "translateX(0%)",
-                      //   backgroundColor: "rgb(254, 84, 41)",
-                      // },
+                      "&:hover": !isSelected(e)
+                        ? {
+                            color: "rgb(254, 84, 41)",
+                          }
+                        : undefined,
                     }}
                   />
                 </Link>
               </Tabs>
             ))}
       </Stack>
-      {/* Upload button and calender selection */}
+      {/* Upload button and calendar selection */}
       <Stack gap={2} direction="row" mt={1} mr={1} mb={1}>
         {/* Upload button */}
         <Box>
