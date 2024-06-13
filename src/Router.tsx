@@ -4,8 +4,9 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 
 import Dashboard from "./components/dashboard/Dashboard";
 import ContentPanel from "./components/content-panel/ContentPanel.tsx";
-import LoginLayout from "./components/layouts/LoginLayout";
-import { Login } from "./components/login/Login";
+import LoginLayout from "./components/layouts/LoginLayout.tsx";
+// import { Login } from "./components/login/Login";
+import { Login } from "./components/login/Login.tsx";
 
 const Router = () => {
   return (
