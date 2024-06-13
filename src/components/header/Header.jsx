@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 import { useLocation } from "react-router-dom";
-import Breadcrumbs from "../common/components/breadcrumbs/Breadcrumbs";
+import Breadcrumbs from "../common/components/breadcrumbs/Breadcrumbs.tsx";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
