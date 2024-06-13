@@ -1,9 +1,7 @@
-class User {
-  constructor(id, name, email) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+export interface PathData {
+  [key: string]: { [key: string]: string };
 }
-export default User;
-s;
+
+export interface ButtonData {
+  [key: string]: { [key: string]: string };
+}

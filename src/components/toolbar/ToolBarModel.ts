@@ -1,13 +1,14 @@
-class User {
-  id: number;
-  name: string;
-  email: string;
-
-  constructor(id: number, name: string, email: string) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+export interface ToolbarProps {
+  isSelected: (item: string) => boolean;
+  params: {
+    folder: string;
+    subFolder: string;
+    range: string;
+    tab: string;
+    subTab?: string;
+  };
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  paths: Record<string, any>;
+  buttons: Record<string, any>;
+  dbStorage: Record<string, any>;
 }
-
-export default User;

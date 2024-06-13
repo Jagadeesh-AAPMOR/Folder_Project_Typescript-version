@@ -1,13 +1,11 @@
-class User {
-  id: number;
-  name: string;
-  email: string;
-
-  constructor(id: number, name: string, email: string) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+export interface menuitemsprops {
+  params: {
+    folder: string;
+    subFolder: string;
+    range: string;
+    tab: string;
+    subTab?: string;
+  };
+  location: any;
+  paths: any;
 }
-
-export default User;

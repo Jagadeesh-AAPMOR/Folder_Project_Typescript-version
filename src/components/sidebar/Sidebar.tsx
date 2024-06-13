@@ -15,20 +15,11 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import PeopleIcon from "@mui/icons-material/People";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SidebarService from "./SidebarService";
-
-interface PathData {
-  [key: string]: { [key: string]: string };
-}
-
-interface ButtonData {
-  [key: string]: { [key: string]: string };
-}
+import { ButtonData, PathData } from "./SidebarModel";
 
 const Sidebar: React.FC = () => {
   const iconMapping: { [key: string]: JSX.Element } = {
-    Development: (
-      <CodeIcon sx={{ color: "rgb(154, 173, 186)" }} />
-    ),
+    Development: <CodeIcon sx={{ color: "rgb(154, 173, 186)" }} />,
     Testing: <BugReportIcon sx={{ color: "rgb(154, 173, 186)" }} />,
     HumanResource: <PeopleIcon sx={{ color: "rgb(154, 173, 186)" }} />,
     Sample: <PeopleIcon sx={{ color: "rgb(154, 173, 186)" }} />,
@@ -42,9 +33,7 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
 
   const handleAccordionChange = (index: number) => {
-    setExpandedIndex((prevIndex) =>
-      prevIndex === index ? null : index
-    );
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   async function fetchPaths() {
@@ -114,9 +103,7 @@ const Sidebar: React.FC = () => {
                 >
                   <AccordionSummary
                     expandIcon={
-                      <ExpandMoreIcon
-                        sx={{ color: "rgb(154, 173, 186)" }}
-                      />
+                      <ExpandMoreIcon sx={{ color: "rgb(154, 173, 186)" }} />
                     }
                     aria-controls={`panel${index + 1}-content`}
                     id={`panel${index + 1}-header`}
@@ -132,15 +119,12 @@ const Sidebar: React.FC = () => {
                           expandedIndex === index
                             ? "rgb(18, 22, 33)"
                             : "rgb(45, 53, 63)",
-                        color:
-                          expandedIndex === index ? "white" : "white",
+                        color: expandedIndex === index ? "white" : "white",
                       },
                     }}
                   >
                     {iconMapping[path]}{" "}
-                    <Typography sx={{ marginLeft: 1 }}>
-                      {path}{" "}
-                    </Typography>{" "}
+                    <Typography sx={{ marginLeft: 1 }}>{path} </Typography>{" "}
                   </AccordionSummary>{" "}
                   <Stack
                     direction={"row"}
@@ -148,7 +132,9 @@ const Sidebar: React.FC = () => {
                     sx={{ bgcolor: "rgb(18, 22, 33)", height: "100%" }}
                   >
                     {" "}
-                    <Box sx={{ borderLeft: "1px solid rgb(67, 74, 96)", ml: 1 }}>
+                    <Box
+                      sx={{ borderLeft: "1px solid rgb(67, 74, 96)", ml: 1 }}
+                    >
                       {" "}
                     </Box>{" "}
                     <AccordionDetails
@@ -161,14 +147,16 @@ const Sidebar: React.FC = () => {
                           style={{ textDecoration: "none", color: "black" }}
                           to={
                             Object.values(paths[path][e1])[0].length > 0
-                              ? `/${path}/${e1}/2023-2024/${Object.keys(
-                                  paths[path][e1]
-                                )[0]}/${Object.entries(
-                                  Object.values(paths[path][e1])[0]
-                                )[0]?.[1]}`
-                              : `/${path}/${e1}/2023-2024/${Object.keys(
-                                  paths[path][e1]
-                                )[0]}/ .`
+                              ? `/${path}/${e1}/2023-2024/${
+                                  Object.keys(paths[path][e1])[0]
+                                }/${
+                                  Object.entries(
+                                    Object.values(paths[path][e1])[0]
+                                  )[0]?.[1]
+                                }`
+                              : `/${path}/${e1}/2023-2024/${
+                                  Object.keys(paths[path][e1])[0]
+                                }/ .`
                           }
                         >
                           <Box
@@ -209,7 +197,9 @@ const Sidebar: React.FC = () => {
             Object.keys(buttons).map((button, ukey) => (
               <Link
                 key={ukey}
-                to={`/${button}/files/2023-2024/${Object.keys(buttons[button])[0]}/ .`}
+                to={`/${button}/files/2023-2024/${
+                  Object.keys(buttons[button])[0]
+                }/ .`}
               >
                 <Box
                   sx={{

@@ -1,13 +1,9 @@
-class User {
-  id: number;
-  name: string;
-  email: string;
-
-  constructor(id: number, name: string, email: string) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+export interface FormErrors {
+  email?: string;
+  otp?: string;
 }
 
-export default User;
+export interface LoginDetails {
+  email: string;
+  otp: string;
+}

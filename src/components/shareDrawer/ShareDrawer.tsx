@@ -25,42 +25,7 @@ import {
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import { FileDetails } from "../common/models/model";
-
-interface Employee {
-  id: number;
-  name: string;
-  department: string;
-}
-
-interface Employees {
-  [key: string]: Employee[];
-}
-
-interface ShareDrawerProps {
-  drawerOpen: boolean;
-  handleDrawerClose: () => void;
-  setDrawerOpen: (open: boolean) => void;
-  selectedFileDetails: FileDetails | null;
-  department: any;
-  handleDepartmentChange: (event: SelectChangeEvent<HTMLInputElement>) => void;
-  selectAllChecked: boolean;
-  handleSelectAll: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    fileName: string
-  ) => void;
-  add: boolean;
-  employees: Employees;
-  handleCheckboxChange: (
-    employeeId: number,
-    employeeName: string,
-    employeeDepartment: string,
-    fileName: string,
-    isChecked: boolean
-  ) => void;
-  handleCancel: () => void;
-  handleShareClick: () => void;
-  checkedEmployees: number[];
-}
+import { ShareDrawerProps } from "./ShareDrawerModel";
 
 const ShareDrawer: React.FC<ShareDrawerProps> = ({
   drawerOpen,
