@@ -8,16 +8,18 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import UploadFile from "../uploadFile/UploadFile";
-import TableData from "./TableData";
+import UploadFile from "../uploadFile/UploadFile.tsx";
+import TableData from "./TableData.tsx";
 import { RouteComponentProps } from "react-router-dom";
+import { FileDetails } from "../common/models/model";
 
 interface FileTableProps extends RouteComponentProps<any> {
+  location: any;
   dbStorage: { [key: string]: any[] };
-  handleDelete: (fileName: string, parentKey: string) => void;
-  handleDownload: (fileName: string, parentKey: string) => void;
-  handleShare: (fileName: string, parentKey: string) => void;
-  handleFileChange: (files: FileList | null) => void;
+  handleDelete: (index: number, key: string) => void;
+  handleDownload: (fileName: File) => void;
+  handleShare: (fileDetails: FileDetails) => void;
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FilesTable: React.FC<FileTableProps> = ({

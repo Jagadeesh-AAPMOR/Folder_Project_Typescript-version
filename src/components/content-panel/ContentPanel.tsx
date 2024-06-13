@@ -1,7 +1,7 @@
 import { Box, SelectChangeEvent } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import ToolBar from "../toolbar/ToolBar";
+import ToolBar from "../toolbar/ToolBar.tsx";
 import MenuItems from "../menuItems/MenuItems.tsx";
 import FilesTable from "../filesTable/FilesTable.tsx";
 import { ToastContainer, toast } from "react-toastify";
@@ -46,8 +46,8 @@ const ContentPanel: React.FC = () => {
   const [add, setAdd] = useState(false);
   const [checkedEmployees, setCheckedEmployees] = useState<number[]>([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [paths, setPaths] = useState("");
-  const [buttons, setButtons] = useState("");
+  const [paths, setPaths] = useState<any>("");
+  const [buttons, setButtons] = useState<any>("");
   const [employees, setEmployees] = useState<Employees>({});
   const [tempDbStorage, setTempDbStorage] = useState<DbStorage>(dbStorage);
 
@@ -287,7 +287,15 @@ const ContentPanel: React.FC = () => {
       {paths && buttons && (
         <ToolBar
           isSelected={isSelected}
-          params={params}
+          params={
+            params as {
+              folder: string;
+              subFolder: string;
+              range: string;
+              tab: string;
+              subTab?: string;
+            }
+          }
           handleFileChange={handleFileChange}
           paths={paths}
           buttons={buttons}

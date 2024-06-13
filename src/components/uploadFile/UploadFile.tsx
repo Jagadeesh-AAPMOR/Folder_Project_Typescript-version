@@ -1,11 +1,15 @@
-import { Box, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-// click to upload button in the data pannel
-function UploadFile({ handleFileChange }) {
+
+interface UploadFileProps {
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const UploadFile: React.FC<UploadFileProps> = ({ handleFileChange }) => {
   return (
-    <Box height={150} margin={"auto"} width={400} mt={10}>
-      <Stack alignItems={"center"}>
+    <Box height={150} margin="auto" width={400} mt={10}>
+      <Stack alignItems="center">
         <label htmlFor="file-upload">
           <IconButton component="span">
             <CloudUploadOutlinedIcon
@@ -24,7 +28,7 @@ function UploadFile({ handleFileChange }) {
           </IconButton>
         </label>
         <Typography
-          color={"grey"}
+          color="grey"
           sx={{
             mt: 2,
             cursor: "pointer",
@@ -46,6 +50,6 @@ function UploadFile({ handleFileChange }) {
       </Stack>
     </Box>
   );
-}
+};
 
 export default UploadFile;
