@@ -2,8 +2,8 @@ import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import ToolBar from "../toolbar/ToolBar";
-import MenuItems from "../menuItems/MenuItems";
-import FilesTable from "../filesTable/FilesTable";
+import MenuItems from "../menuItems/MenuItems.tsx";
+import FilesTable from "../filesTable/FilesTable.tsx";
 import { ToastContainer, toast } from "react-toastify";
 import ShareDrawer from "../shareDrawer/ShareDrawer";
 import ContentPanelService from "./ContentPanelService";
@@ -158,7 +158,10 @@ const ContentPanel: React.FC = () => {
   };
 
   // Select all checkboxes
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>, fileName: string) => {
+  const handleSelectAll = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fileName: string
+  ) => {
     const isChecked = event.target.checked;
     let selectedEmployeeIds = [...checkedEmployees];
     const currentEmployees =
