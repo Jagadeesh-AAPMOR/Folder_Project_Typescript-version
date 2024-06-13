@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Stack,
   Typography,
@@ -6,34 +6,43 @@ import {
   TextField,
   FormHelperText,
 } from "@mui/material";
-import { useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
+// Define types for form errors and login details
+interface FormErrors {
+  email?: string;
+  otp?: string;
+}
 
-  const navigate = useNavigate()
-  const [formErrors, setFormErrors] = useState({});
-  const [getOtp, setGetOtp] = useState(false);
-  const length = 6;
-  const [otp, setOTP] = useState(new Array(length).fill(""));
-  const otpFields = useRef([]);
-  const [loginDetails, setLoginDetails] = useState({
+interface LoginDetails {
+  email: string;
+  otp: string;
+}
+
+export const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [getOtp, setGetOtp] = useState<boolean>(false);
+  const length: number = 6;
+  const [otp, setOTP] = useState<string[]>(new Array(length).fill(""));
+  const otpFields = useRef<(HTMLInputElement | null)[]>([]);
+  const [loginDetails, setLoginDetails] = useState<LoginDetails>({
     email: "",
     otp: "",
   });
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginDetails((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleOTPChange = (otp) => {
+  const handleOTPChange = (otp: string) => {
     setLoginDetails((prevState) => ({ ...prevState, otp }));
   };
 
-  const validate = (values) => {
-    const errors = {};
+  const validate = (values: LoginDetails): FormErrors => {
+    const errors: FormErrors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     // Validation for email
@@ -68,26 +77,45 @@ export const Login = () => {
     return errors;
   };
 
-  const handleChange = (index, event) => {
+  const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     let value = event.target.value;
-    if (isNaN(value)) return;
+    if (isNaN(Number(value))) return;
     if (value.length > 1) {
       value = value.slice(0, 1);
     }
-
+  
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
-
+  
     if (value !== "" && index < length - 1) {
-      otpFields.current[index + 1].focus();
+      otpFields.current[index + 1]?.focus();
     }
-
+  
     const newCombinedOTP = newOTP.join("");
     handleOTPChange(newCombinedOTP);
   };
+  
+//   const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+//     let value = event.target.value;
+//     if (isNaN(Number(value))) return;
+//     if (value.length > 1) {
+//       value = value.slice(0, 1);
+//     }
 
-  const handlePaste = (event) => {
+//     const newOTP = [...otp];
+//     newOTP[index] = value;
+//     setOTP(newOTP);
+
+//     if (value !== "" && index < length - 1) {
+//       otpFields.current[index + 1]?.focus();
+//     }
+
+//     const newCombinedOTP = newOTP.join("");
+//     handleOTPChange(newCombinedOTP);
+//   };
+
+  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
     const pasteData = event.clipboardData.getData("text");
     if (!/^\d{6}$/.test(pasteData)) return;
@@ -96,30 +124,33 @@ export const Login = () => {
     setOTP(newOTP);
     handleOTPChange(pasteData);
     otpFields.current.forEach((field, index) => {
-      field.value = newOTP[index];
+      if (field) {
+        field.value = newOTP[index];
+      }
     });
   };
 
-  const handleKeyDown = (index, event) => {
+  const handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Backspace" && index > 0 && otp[index] === "") {
-      otpFields.current[index - 1].focus();
+      otpFields.current[index - 1]?.focus();
     }
   };
+
+  
 
   const handleGetOTP = async () => {
     const errors = validate(loginDetails);
     setGetOtp(true);
-   
   };
 
   const handleSubmitOTP = async () => {
     const errors = validate(loginDetails);
     setFormErrors(errors);
     if (Object.keys(errors).length === 0) {
-      Cookies.set("loginDetails", loginDetails, { expires: 1 / 12 });
+      Cookies.set("loginDetails", JSON.stringify(loginDetails), { expires: 1 / 12 });
       console.log("Cookies set:", Cookies.get("loginDetails"));
       console.log(loginDetails);
-      navigate("/")
+      navigate("/");
     } else {
       console.log("Validation errors:", errors);
     }

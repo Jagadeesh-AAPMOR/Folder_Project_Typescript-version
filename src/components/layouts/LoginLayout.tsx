@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Outlet } from "react-router-dom";
 import { 
         Box,
@@ -8,7 +8,7 @@ import {
     } from '@mui/material';
 import FilterDramaIcon from '@mui/icons-material/FilterDrama';
 
-const LoginLayout = () => {
+const LoginLayout: FC = () => {
   return (
     <Box
     sx={{
