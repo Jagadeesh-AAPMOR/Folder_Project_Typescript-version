@@ -1,13 +1,6 @@
-class User {
-  id: number;
-  name: string;
-  email: string;
-
-  constructor(id: number, name: string, email: string) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+export interface RouteParams extends Record<string, string | undefined> {
+  folder?: string;
+  subFolder?: string;
+  tab?: string;
+  subTab?: string;
 }
-
-export default User;
