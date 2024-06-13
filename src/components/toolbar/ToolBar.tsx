@@ -16,21 +16,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
-interface ToolbarProps {
-  isSelected: (item: string) => boolean;
-  params: {
-    folder: string;
-    subFolder: string;
-    range: string;
-    tab: string;
-    subTab?: string;
-  };
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  paths: Record<string, any>;
-  buttons: Record<string, any>;
-  dbStorage: Record<string, any>;
-}
-
+import { ToolbarProps } from "./ToolBarModel";
 const ToolBar: React.FC<ToolbarProps> = ({
   isSelected,
   params,

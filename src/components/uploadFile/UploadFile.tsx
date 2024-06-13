@@ -1,10 +1,7 @@
 import React from "react";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-
-interface UploadFileProps {
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { UploadFileProps } from "./UploadFileModels";
 
 const UploadFile: React.FC<UploadFileProps> = ({ handleFileChange }) => {
   return (

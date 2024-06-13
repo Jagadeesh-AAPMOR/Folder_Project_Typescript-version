@@ -8,17 +8,9 @@ import {
 } from "@mui/material";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { FormErrors, LoginDetails } from "./LoginModel";
 
 // Define types for form errors and login details
-interface FormErrors {
-  email?: string;
-  otp?: string;
-}
-
-interface LoginDetails {
-  email: string;
-  otp: string;
-}
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -77,43 +69,46 @@ export const Login: React.FC = () => {
     return errors;
   };
 
-  const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     let value = event.target.value;
     if (isNaN(Number(value))) return;
     if (value.length > 1) {
       value = value.slice(0, 1);
     }
-  
+
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
-  
+
     if (value !== "" && index < length - 1) {
       otpFields.current[index + 1]?.focus();
     }
-  
+
     const newCombinedOTP = newOTP.join("");
     handleOTPChange(newCombinedOTP);
   };
-  
-//   const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-//     let value = event.target.value;
-//     if (isNaN(Number(value))) return;
-//     if (value.length > 1) {
-//       value = value.slice(0, 1);
-//     }
 
-//     const newOTP = [...otp];
-//     newOTP[index] = value;
-//     setOTP(newOTP);
+  //   const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  //     let value = event.target.value;
+  //     if (isNaN(Number(value))) return;
+  //     if (value.length > 1) {
+  //       value = value.slice(0, 1);
+  //     }
 
-//     if (value !== "" && index < length - 1) {
-//       otpFields.current[index + 1]?.focus();
-//     }
+  //     const newOTP = [...otp];
+  //     newOTP[index] = value;
+  //     setOTP(newOTP);
 
-//     const newCombinedOTP = newOTP.join("");
-//     handleOTPChange(newCombinedOTP);
-//   };
+  //     if (value !== "" && index < length - 1) {
+  //       otpFields.current[index + 1]?.focus();
+  //     }
+
+  //     const newCombinedOTP = newOTP.join("");
+  //     handleOTPChange(newCombinedOTP);
+  //   };
 
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -130,13 +125,14 @@ export const Login: React.FC = () => {
     });
   };
 
-  const handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (
+    index: number,
+    event: React.KeyboardEvent<HTMLDivElement>
+  ) => {
     if (event.key === "Backspace" && index > 0 && otp[index] === "") {
       otpFields.current[index - 1]?.focus();
     }
   };
-
-  
 
   const handleGetOTP = async () => {
     const errors = validate(loginDetails);
@@ -147,7 +143,9 @@ export const Login: React.FC = () => {
     const errors = validate(loginDetails);
     setFormErrors(errors);
     if (Object.keys(errors).length === 0) {
-      Cookies.set("loginDetails", JSON.stringify(loginDetails), { expires: 1 / 12 });
+      Cookies.set("loginDetails", JSON.stringify(loginDetails), {
+        expires: 1 / 12,
+      });
       console.log("Cookies set:", Cookies.get("loginDetails"));
       console.log(loginDetails);
       navigate("/");

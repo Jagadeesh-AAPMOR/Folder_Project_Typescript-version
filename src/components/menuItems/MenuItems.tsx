@@ -2,17 +2,8 @@ import { Box, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
-interface menuitemsprops {
-  params: {
-    folder: string;
-    subFolder: string;
-    range: string;
-    tab: string;
-    subTab?: string;
-  };
-  location: any;
-  paths: any;
-}
+import { menuitemsprops } from "./MenuItemsModel";
+
 const MenuItems: React.FC<menuitemsprops> = ({ params, location, paths }) => {
   const [value, setValue] = useState(0);
 
