@@ -16,17 +16,7 @@ import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { FileDetails } from "../common/models/model";
-
-interface TableDataProps {
-  handleDelete: (index: number, key: string) => void;
-  value: any[];
-
-  parentKey: string;
-  handleDownload: (file: File) => void;
-  handleShare: (file: FileDetails) => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { TableDataProps } from "./FilesTableModel";
 
 const TableData: React.FC<TableDataProps> = ({
   handleDelete,

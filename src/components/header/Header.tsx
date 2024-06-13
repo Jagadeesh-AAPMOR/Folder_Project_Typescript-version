@@ -8,9 +8,8 @@ import {
   MenuItem,
   Stack,
 } from "@mui/material";
-
 import { useLocation, useNavigate } from "react-router-dom";
-import Breadcrumbs from "../common/components/breadcrumbs/Breadcrumbs";
+import Breadcrumbs from "../common/components/breadcrumbs/Breadcrumbs.tsx";
 import Cookies from "js-cookie";
 
 const Header: React.FC = () => {

@@ -5,31 +5,10 @@ import ToolBar from "../toolbar/ToolBar.tsx";
 import MenuItems from "../menuItems/MenuItems.tsx";
 import FilesTable from "../filesTable/FilesTable.tsx";
 import { ToastContainer, toast } from "react-toastify";
-import ContentPanelService from "./ContentPanelService";
+import ContentPanelService from "./ContentPanelService.ts";
 import ShareDrawer from "../shareDrawer/ShareDrawer.tsx";
 import { FileDetails } from "../common/models/model";
-
-interface DbStorage {
-  [key: string]: Array<{
-    file: File;
-    shared: Array<{
-      employeeId: number;
-      employeeName: string;
-      employeeDepartment: string;
-      sharedDate: Date;
-    }>;
-  }>;
-}
-
-interface Employee {
-  id: number;
-  name: string;
-  department: string;
-}
-
-interface Employees {
-  [key: string]: Employee[];
-}
+import { DbStorage, Employees } from "./ContentPanelModel.ts";
 
 const ContentPanel: React.FC = () => {
   const location = useLocation();
