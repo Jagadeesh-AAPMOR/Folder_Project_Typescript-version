@@ -4,13 +4,16 @@ import "./index.css";
 
 import reportWebVitals from "./reportWebVitals";
 import Router from "./Router.tsx";
+import { UserProvider } from "./components/context/UserContext.tsx";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Router />
+    <UserProvider>
+      <Router />
+    </UserProvider>
   </React.StrictMode>
 );
 

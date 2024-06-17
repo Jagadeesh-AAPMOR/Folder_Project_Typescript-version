@@ -7,12 +7,14 @@ import {
   Menu,
   MenuItem,
   Stack,
+  Typography,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../common/components/breadcrumbs/Breadcrumbs.tsx";
 import Cookies from "js-cookie";
-
+import { useUser } from "../context/UserContext.tsx";
 const Header: React.FC = () => {
+  const user = useUser();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -30,7 +32,7 @@ const Header: React.FC = () => {
     Cookies.remove("loginDetails");
     navigate("/login");
   };
-
+  console.log();
   return (
     <Container sx={{ height: "60px", padding: "10px", mb: 2 }}>
       <Stack width={"100%"} direction={"row"} justifyContent={"space-between"}>
@@ -65,6 +67,12 @@ const Header: React.FC = () => {
               "aria-labelledby": "basic-button",
             }}
           >
+            <MenuItem>
+              <Stack direction={"row"} alignItems={"center"} gap={2}>
+                <Avatar />
+                <Typography>{user?.name}</Typography>
+              </Stack>
+            </MenuItem>
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
