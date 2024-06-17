@@ -71,3 +71,13 @@ export const employees = {
     { id: 3002, name: "Bob Brown" },
   ],
 };
+
+export const users = {
+  "1": {
+    id: "1",
+    name: "John Doe",
+    email: "srinivasch@aapmor.com",
+    access: [],
+    role: "User",
+  },
+};
